@@ -2,8 +2,10 @@
 
 namespace MarekVik\DependencyCache;
 
+use Illuminate\Cache\ApcWrapper;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Cache\Repository;
+use MarekVik\DependencyCache\Store\ApcStore;
 use MarekVik\DependencyCache\Store\ArrayStore;
 use MarekVik\DependencyCache\Store\FileStore;
 use MarekVik\DependencyCache\Store\NullStore;
@@ -11,6 +13,19 @@ use MarekVik\DependencyCache\Store\RedisStore;
 
 class DependencyCacheManager extends CacheManager
 {
+    /**
+     * Create an instance of the APC cache driver.
+     *
+     * @param  array  $config
+     * @return \Illuminate\Cache\Repository
+     */
+    protected function createApcDriver(array $config): Repository
+    {
+        $prefix = $this->getPrefix($config);
+
+        return $this->repository(new ApcStore(new ApcWrapper, $prefix));
+    }
+
     /**
      * Create an instance of the array cache driver.
      *
