@@ -1,11 +1,13 @@
 {
   "name": "jackie111222/laravel-dependency-cache",
+  "version": "1.0.0",
   "description": "Allows to set dependencies between cached items",
-  "keywords": ["laravel", "cache", "dependency"],
-  "type": "library",
-  "require": {
-    "php": ">=8.0"
-  },
+  "keywords": [
+    "laravel",
+    "cache",
+    "dependency"
+  ],
+  "homepage": "https://github.com/jackie111222/laravel-dependency-cache",
   "license": "MIT",
   "authors": [
     {
@@ -13,10 +15,27 @@
       "email": "marek@vikartovsky.sk"
     }
   ],
+  "require": {
+    "php": ">=8.0",
+    "illuminate/cache": "^9.0"
+  },
   "autoload": {
     "psr-4": {
-      "LaravelDependencyCache\\": "src/LaravelDependencyCache"
+      "MarekVik\\DependencyCache\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload-dev": {
+    "psr-4": {
+      "MarekVik\\DependencyCache\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MarekVik\\DependencyCache\\DependencyCacheServiceProvider"
+      ]
+    }
+  }
 }
