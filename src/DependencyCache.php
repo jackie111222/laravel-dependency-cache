@@ -6,9 +6,9 @@ namespace MarekVik\DependencyCache;
 
 use DateInterval;
 use DateTimeInterface;
-use Illuminate\Cache\Repository;
 use Illuminate\Cache\TagSet;
 use Illuminate\Contracts\Cache\Store;
+use MarekVik\DependencyCache\Store\Repository;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class DependencyCache extends Repository

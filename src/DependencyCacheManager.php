@@ -4,12 +4,14 @@ namespace MarekVik\DependencyCache;
 
 use Illuminate\Cache\ApcWrapper;
 use Illuminate\Cache\CacheManager;
-use Illuminate\Cache\Repository;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\HigherOrderTapProxy;
 use MarekVik\DependencyCache\Store\ApcStore;
 use MarekVik\DependencyCache\Store\ArrayStore;
 use MarekVik\DependencyCache\Store\FileStore;
 use MarekVik\DependencyCache\Store\NullStore;
 use MarekVik\DependencyCache\Store\RedisStore;
+use MarekVik\DependencyCache\Store\Repository;
 
 class DependencyCacheManager extends CacheManager
 {
@@ -17,7 +19,7 @@ class DependencyCacheManager extends CacheManager
      * Create an instance of the APC cache driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     protected function createApcDriver(array $config): Repository
     {
@@ -30,7 +32,7 @@ class DependencyCacheManager extends CacheManager
      * Create an instance of the array cache driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     protected function createArrayDriver(array $config): Repository
     {
@@ -41,7 +43,7 @@ class DependencyCacheManager extends CacheManager
      * Create an instance of the file cache driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     protected function createFileDriver(array $config): Repository
     {
@@ -51,7 +53,7 @@ class DependencyCacheManager extends CacheManager
     /**
      * Create an instance of the Null cache driver.
      *
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     protected function createNullDriver(): Repository
     {
@@ -62,7 +64,7 @@ class DependencyCacheManager extends CacheManager
      * Create an instance of the Redis cache driver.
      *
      * @param  array  $config
-     * @return \Illuminate\Cache\Repository
+     * @return Repository
      */
     public function createRedisDriver(array $config): Repository
     {
@@ -75,5 +77,19 @@ class DependencyCacheManager extends CacheManager
         return $this->repository(
             $store->setLockConnection($config['lock_connection'] ?? $connection)
         );
+    }
+
+    /**
+     * Create a new cache repository with the given implementation.
+     *
+     * @param Store $store
+     *
+     * @return HigherOrderTapProxy|mixed
+     */
+    public function repository(Store $store): mixed
+    {
+        return tap(new Repository($store), function ($repository) {
+            $this->setEventDispatcher($repository);
+        });
     }
 }
