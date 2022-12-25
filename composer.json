@@ -1,5 +1,6 @@
 {
   "name": "jackie111222/laravel-dependency-cache",
+  "version": "1.0.0",
   "description": "Allows to set dependencies between cached items",
   "keywords": [
     "laravel",
