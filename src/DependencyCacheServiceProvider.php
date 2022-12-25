@@ -11,5 +11,9 @@ class DependencyCacheServiceProvider extends CacheServiceProvider
         $this->app->singleton('cache', function ($app) {
             return new DependencyCacheManager($app);
         });
+
+        $this->app->singleton('cache.store', function ($app) {
+            return $app['cache']->driver();
+        });
     }
 }
