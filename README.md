@@ -10,24 +10,24 @@ Cache dependencies usage example:
 When storing records in the cache, you can set the dependencies like:
 
 ```
- Cache::dependencies('my_cache_dependency')->set('test_item', 1); 
+Cache::dependencies('my_cache_dependency')->set('test_item', 1);
 Cache::tags(['taggroup_1', 'taggroup_2'])->dependencies('my_cache_dependency')->set('test_item', 1);
 ```
 
-Also setting more dependencies for cached item is supported as well, you just have to set them as an array: 
+Also setting more dependencies for cached item is supported as well, you just have to set them as an array:
 
 ```
 Cache::dependencies(['my_cache_dependency', 'another_cache_dependency'])->set('test_item', 1);
 ```
 
-Or you can set dependencies as key, value pair: (this is useful if you want to make cache dependency by specific identifier/s from database etc.) 
+Or you can set dependencies as key, value pair: (this is useful if you want to make cache dependency by specific identifier/s from database etc.)
 
 ```
-Cache::dependencies(['product' => [1]])->set('test_item', 1); 
+Cache::dependencies(['product' => [1]])->set('test_item', 1);
 Cache::dependencies(['product' => [1, 2, 3, ..etc]])->set('test_item2’, 1);
 ```
 
-If you want to invalidate (remove) all the records from the cache that have set specific dependency or dependencies, you can use one of the following codes: 
+If you want to invalidate (remove) all the records from the cache that have set specific dependency or dependencies, you can use one of the following codes:
 
 ```
 Cache::dependencies('my_cache_dependency')->invalidate();
