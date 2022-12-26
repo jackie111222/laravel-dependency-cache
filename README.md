@@ -1,6 +1,6 @@
-The main purpose of cache dependencies is to create connection of various cache items with each other by specific identifiers. This functionality is intended to help with simple work with the invalidation of cache records that chain each other. The programmer does not have to remember all the names of the cache keys or the exact sequence of cache tags from which he wants to delete cached items. You just have to set dependencies and invalidate them.
+The main purpose of cache dependencies is to create connection of various cache items with each other by specific identifiers. This functionality is intended to help with simple work with the invalidation of cache records that chain each other. The programmer does not have to remember all the names of the cache keys, you just have to set dependencies and invalidate them.
 
-Supported cache drivers: Array, File, Null, Redis
+Supported cache drivers: Apc, Array, File, Null, Redis
 
 Supported laravel version: >= 9.0
 
@@ -11,7 +11,6 @@ When storing records in the cache, you can set the dependencies like:
 
 ```
 Cache::dependencies('my_cache_dependency')->set('test_item', 1);
-Cache::tags(['taggroup_1', 'taggroup_2'])->dependencies('my_cache_dependency')->set('test_item', 1);
 ```
 
 Also setting more dependencies for cached item is supported as well, you just have to set them as an array:
