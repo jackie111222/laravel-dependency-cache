@@ -60,46 +60,6 @@ class CacheDependencyCacheTest extends TestCase {
         $this->assertFalse($store->dependencies($dependencies)->exists());
     }
 
-    public function testCacheDependencyInvalidateOnTaggableStore()
-    {
-        $store = new ArrayStore;
-        $dependencies = 'dependencies_group';
-        $tags = ['test_tag'];
-
-        $store->tags($tags)->dependencies($dependencies)->put('foo', 'bar', 10);
-        $store->dependencies($dependencies)->invalidate();
-
-        $this->assertNull($store->tags($tags)->get('foo'));
-    }
-
-    public function testCacheDependencyInvalidateOnTaggableStoreAndCheckIfSameKeyExistsWithoutDependency()
-    {
-        $store = new ArrayStore;
-        $dependencies = 'dependencies_group';
-        $tags = ['test_tag'];
-
-        $store->tags($tags)->dependencies($dependencies)->put('foo', 'bar', 10);
-        $store->put('foo', 'bar', 10);
-        $store->dependencies($dependencies)->invalidate();
-
-        $this->assertNull($store->tags($tags)->get('foo'));
-        $this->assertEquals('bar', $store->get('foo'));
-    }
-
-    public function testCacheDependencyInvalidateOnTaggedAndNotTaggedItem()
-    {
-        $store = new ArrayStore;
-        $dependencies = 'dependencies_group';
-        $tags = ['test_tag'];
-
-        $store->tags($tags)->dependencies($dependencies)->put('foo', 'bar', 10);
-        $store->dependencies($dependencies)->put('foo2', 'bar', 10);
-        $store->dependencies($dependencies)->invalidate();
-
-        $this->assertNull($store->tags($tags)->get('foo'));
-        $this->assertNull($store->get('foo2'));
-    }
-
     protected function mockFilesystem()
     {
         return $this->createMock(Filesystem::class);
